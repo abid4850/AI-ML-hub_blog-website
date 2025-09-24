@@ -1,0 +1,205 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI & ML Hub</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <style>
+    /* Header Styling */
+    .site-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: #1f2937; /* dark gray */
+      color: #fff;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .brand .logo {
+      font-size: 1.8rem;
+    }
+
+    .brand-text .brand-name {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .brand-text .tagline {
+      font-size: 0.85rem;
+      color: #9ca3af;
+    }
+
+    /* Nav row style */
+    .main-nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    .main-nav a {
+      text-decoration: none;
+      color: #d1d5db;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .main-nav a:hover {
+      color: #3b82f6; /* blue on hover */
+    }
+
+    .main-nav .cta {
+      padding: 0.4rem 0.8rem;
+      background: #3b82f6;
+      color: #fff !important;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    .main-nav .cta:hover {
+      background: #2563eb;
+    }
+
+    /* Footer styling */
+    footer {
+      background: #111827;
+      color: #d1d5db;
+      padding: 2rem 1rem;
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    footer p {
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      margin-top: 0.5rem;
+    }
+
+    .social-icons a {
+      font-size: 1.4rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      transition: transform 0.2s ease;
+    }
+
+    .social-icons a:hover {
+      transform: scale(1.1);
+    }
+
+    /* Brand colors */
+    .twitter { color: #1DA1F2; }
+    .github { color: #fff; background: #333; border-radius: 50%; }
+    .linkedin { color: #0A66C2; }
+    .youtube { color: #FF0000; }
+    .facebook { color: #1877F2; }
+    .instagram { color: #E1306C; }
+  </style>
+
+  <!-- Font Awesome (for logos) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <!-- Brand / Logo -->
+      <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+        <span class="fs-4 me-2" aria-hidden="true">⚡</span>
+        <div class="brand-text">
+          <strong class="d-block">AI & ML Hub</strong>
+          <small class="text-muted">Practical code, projects, and resources</small>
+        </div>
+      </a>
+
+      <!-- Mobile toggle button -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Navigation items -->
+      <div class="collapse navbar-collapse" id="navbarMain">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'features' %}">Features</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'projects' %}">Projects</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'research' %}">Research</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'datasets' %}">Datasets</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'blog' %}">Blog</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'tools' %}">Tools</a>
+          </li>
+          {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a href="{% url 'logout' %}" class="btn btn-outline-light ms-2">Logout</a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a href="{% url 'login' %}" class="btn btn-outline-light me-2">Login</a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'signup' %}" class="btn btn-primary">Join now</a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-4">
+
+  {% block content %}
+  {% endblock %}
+
+  <footer class="bg-dark text-light py-4 mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <p class="mb-4">&copy; 2025 AI & ML Hub. Built by coders, for coders and researchers.</p>
+          <div class="social-icons d-flex justify-content-center gap-3">
+            <a href="https://twitter.com" target="_blank" class="text-light fs-4"><i class="fab fa-twitter"></i></a>
+            <a href="https://github.com" target="_blank" class="text-light fs-4"><i class="fab fa-github"></i></a>
+            <a href="https://linkedin.com" target="_blank" class="text-light fs-4"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://youtube.com" target="_blank" class="text-light fs-4"><i class="fab fa-youtube"></i></a>
+            <a href="https://facebook.com" target="_blank" class="text-light fs-4"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://instagram.com" target="_blank" class="text-light fs-4"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <!-- Bootstrap 5 JavaScript Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container py-4">
+    <h1 class="mb-4">Blog Posts</h1>
+    
+    <div class="row">
+        {% for post in posts %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100">
+                    {% if post.image %}
+                        <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <p class="card-text text-muted">
+                            <small>
+                                {% if post.author %}By {{ post.author.get_full_name|default:post.author.username }}{% endif %}
+                                {% if post.category %} in {{ post.category.name }}{% endif %}
+                            </small>
+                        </p>
+                        <p class="card-text">{{ post.excerpt|default:post.content|truncatewords:30 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">{{ post.created_at|date:"M d, Y" }}</small>
+                            <span class="badge bg-secondary">{{ post.views }} views</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    No posts available yet.
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
