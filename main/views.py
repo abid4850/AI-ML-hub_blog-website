@@ -1,16 +1,18 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import SimplePost, Category
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import F
-from .forms import CustomUserCreationForm
-
-
+from .models import SimplePost, Category
+from .forms import CustomUserCreationForm, PostForm
 
 def home(request):
-    posts = SimplePost.objects.filter(published=True)[:3]
-    return render(request, 'home.html', {'posts': posts})
+    try:
+        posts = SimplePost.objects.filter(published=True).select_related('author')[:3]
+        return render(request, 'home.html', {'posts': posts})
+    except Exception:
+        messages.error(request, 'Error loading recent posts.')
+        return render(request, 'home.html', {'posts': []})
 
 
 def research(request):
